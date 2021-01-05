@@ -1,0 +1,11 @@
+<div th:fragment="footer" xmlns:th="http://www.w3.org/1999/xhtml">
+    <footer>
+        <div class="container">
+            <div class="form-group">
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" class="btn btn-primary my-2" value="Sign Out"/>
+                </form>
+            </div>
+        </div>
+    </footer>
+</div>
