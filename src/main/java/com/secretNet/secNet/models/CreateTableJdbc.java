@@ -29,7 +29,7 @@ public class CreateTableJdbc {
                     "(id SERIAL not NULL, " +
                     " title VARCHAR(50), " +
                     " anons VARCHAR (50), " +
-                    " full_text VARCHAR (200), " +
+                    " full_text VARCHAR (2000), " +
                     " views INTEGER, " +
                     " PRIMARY KEY (id))";
 
