@@ -133,9 +133,6 @@ jobs:
       - validate_new_version
       - build_and_test
 
-    if: >
-      github.event_name == 'push'
-
     env:
       PLANNED_VERSION: ${{ needs.validate_new_version.outputs.planned_version }}
       TAG_HASH: ${{ needs.validate_new_version.outputs.tag_hash }}
@@ -143,6 +140,11 @@ jobs:
       TAG_EXISTS: ${{ needs.validate_new_version.outputs.tag_exists }}
       BRANCH_NAME: ${{ needs.validate_new_version.outputs.branch_name }}
       ARTIFACT_NAME: ${{ needs.build_and_test.outputs.filename }}
+
+    if: >
+      needs.validate_new_version.outputs.can_create == 'true' &&
+      needs.validate_new_version.outputs.branch_name == 'master' &&
+      github.event_name == 'push'
 
     steps:
 
@@ -157,11 +159,17 @@ jobs:
         with:
           name: "${{ env.ARTIFACT_NAME }}"
 
+      - name: Define full path to downloaded artifact
+        id: artifact_meta
+        shell: bash
+        run: |
+          echo "::set-output name=full_path::${{ steps.download_artifact.outputs.download-path }}/${{ env.ARTIFACT_NAME }}"
+
       - name: Validate downloaded artifact
         id: validate_artifact_exists
         shell: bash
         run: |
-          ls -la "${{ steps.download_artifact.outputs.download-path }}"
+          ls -la "${{ steps.download_artifact.outputs.download-path }}/${{ env.ARTIFACT_NAME }}"
 
       - name: Generate changelog
         id: generate_changelog
@@ -241,6 +249,6 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.download_artifact.outputs.download-path }}
+          asset_path: ${{ steps.artifact_meta.outputs.full_path }}
           asset_name: ${{ env.ARTIFACT_NAME }}
           asset_content_type: application/octet-stream
