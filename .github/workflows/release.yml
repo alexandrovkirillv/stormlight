@@ -83,7 +83,6 @@ jobs:
       BRANCH_NAME: ${{ needs.validate_new_version.outputs.branch_name }}
 
     if: >
-      needs.validate_new_version.outputs.branch_name != 'master' &&
       github.event_name == 'push'
     
     steps:
@@ -120,7 +119,7 @@ jobs:
         with:
           name: "${{ steps.artifact_meta.outputs.filename }}"
           path: "${{ steps.artifact_meta.outputs.build_path }}"
-          retention-days: 90
+          retention-days: 30
 
   release:
     name: Release
