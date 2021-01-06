@@ -92,7 +92,7 @@ jobs:
           java-version: 1.8
 
       - name: Invoke Gradle build
-        run: ./gradlew build -PbuildVersion="${{ steps.planned_version.outputs.planned_version }}"
+        run: bash gradlew build -PbuildVersion="${{ steps.planned_version.outputs.planned_version }}"
 
       - name: List workdir contents
         id: list_workdir_contents
