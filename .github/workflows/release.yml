@@ -71,6 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       job_status: ${{ job.status }}
+      filename: ${{ steps.artifact_meta.outputs.filename }}
 
     needs: 
       - validate_new_version
@@ -86,6 +87,16 @@ jobs:
       github.event_name == 'push'
     
     steps:
+
+      - name: Validate envionment variables
+        id: validate_envvars
+        shell: bash
+        run: |
+          [[ ! -z "PLANNED_VERSION" ]] || exit 2
+          [[ ! -z "TAG_HASH" ]] || exit 2
+          [[ ! -z "CAN_CREATE_RELEASE" ]] || exit 2
+          [[ ! -z "TAG_EXISTS" ]] || exit 2
+          [[ ! -z "BRANCH_NAME" ]] || exit 2
 
       - name: Check out code
         uses: actions/checkout@v2
@@ -146,6 +157,17 @@ jobs:
       github.event_name == 'push'
 
     steps:
+
+      - name: Validate envionment variables
+        id: validate_envvars
+        shell: bash
+        run: |
+          [[ ! -z "${{ env.PLANNED_VERSION }}" ]] || exit 2
+          [[ ! -z "${{ env.TAG_HASH }}" ]] || exit 2
+          [[ ! -z "${{ env.CAN_CREATE_RELEASE }}" ]] || exit 2
+          [[ ! -z "${{ env.TAG_EXISTS }}" ]] || exit 2
+          [[ ! -z "${{ env.BRANCH_NAME }}" ]] || exit 2
+          [[ ! -z "${{ env.ARTIFACT_NAME }}" ]] || exit 2
 
       - name: Check out code
         uses: actions/checkout@v2
