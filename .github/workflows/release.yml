@@ -71,6 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       job_status: ${{ job.status }}
+      filename: ${{ steps.artifact_meta.outputs.filename }}
 
     needs: 
       - validate_new_version
