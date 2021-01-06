@@ -74,6 +74,9 @@ jobs:
 
     needs: 
       - validate_new_version
+
+    env:
+      PLANNED_VERSION: ${{ needs.validate_new_version.outputs.planned_version }}
     
     if: >
       needs.validate_new_version.outputs.branch_name != 'master' &&
@@ -92,7 +95,7 @@ jobs:
           java-version: 15
 
       - name: Invoke Gradle build
-        run: bash gradlew build -PbuildVersion="${{ steps.planned_version.outputs.planned_version }}"
+        run: bash gradlew build -PbuildVersion="${PLANNED_VERSION}"
 
       - name: List workdir contents
         id: list_workdir_contents
@@ -102,6 +105,6 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.2
         with:
-          name: "app-${{ steps.planned_version.outputs.planned_version }}.jar"
-          path: "build/libs/secretnet-${{ steps.planned_version.outputs.planned_version }}.jar"
+          name: "app-${PLANNED_VERSION}.jar"
+          path: "build/libs/secretnet-${PLANNED_VERSION}.jar"
           retention-days: 90
