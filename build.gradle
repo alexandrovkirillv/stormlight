@@ -5,7 +5,8 @@ plugins {
 }
 
 group = 'com.secretNet'
-version = '0.0.1-SNAPSHOT'
+version = "${project.findProperty('buildVersion') ?: '1.0.0-SNAPSHOT'}"
+archivesBaseName = 'secretnet'
 sourceCompatibility = '15'
 
 configurations {
