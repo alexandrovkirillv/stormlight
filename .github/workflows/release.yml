@@ -77,7 +77,11 @@ jobs:
 
     env:
       PLANNED_VERSION: ${{ needs.validate_new_version.outputs.planned_version }}
-    
+      TAG_HASH: ${{ needs.valican_create.tag_hash }}
+      CAN_CREATE_RELEASE: ${{ needs.valican_create.can_create }}
+      TAG_EXISTS: ${{ needs.valican_create.tag_exists }}
+      BRANCH_NAME: ${{ needs.valican_create.branch_name }}
+
     if: >
       needs.validate_new_version.outputs.branch_name != 'master' &&
       github.event_name == 'push'
@@ -100,11 +104,11 @@ jobs:
       - name: List workdir contents
         id: list_workdir_contents
         run: |
-          ls -laR .
+          ls -laR build/libs
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.2
         with:
-          name: "app-${PLANNED_VERSION}.jar"
-          path: "build/libs/secretnet-${PLANNED_VERSION}.jar"
+          name: "app-${{ env.PLANNED_VERSION }}.jar"
+          path: "build/libs/secretnet-${{ env.PLANNED_VERSION }}.jar"
           retention-days: 90
