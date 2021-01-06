@@ -158,7 +158,8 @@ jobs:
         run: >
           docker build
           --tag "${APP_NAME}:${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
-          --build-arg BUILD_VERSION="${{ steps.artifact_meta.outputs.build_path }}"
+          --build-arg JAR_FILENAME="${{ steps.artifact_meta.outputs.build_path }}"
+          --build-arg BUILD_VERSION="${PLANNED_VERSION}"
           --file docker/no_build/Dockerfile
           .
 
