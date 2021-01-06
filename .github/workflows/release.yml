@@ -156,8 +156,14 @@ jobs:
         id: build_docker_image
         shell: bash
         run: >
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/${APP_NAME}
+          IMAGE_ID=$(echo "${IMAGE_ID}" | tr '[A-Z]' '[a-z]')
+
+          echo "IMAGE_ID=${IMAGE_ID}"
+          echo "VERSION=${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
+
           docker build
-          --tag "${APP_NAME}:${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
+          --tag "${IMAGE_ID}:${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
           --build-arg JAR_FILENAME="${{ steps.artifact_meta.outputs.build_path }}"
           --build-arg BUILD_VERSION="${PLANNED_VERSION}"
           --file docker/no_build/Dockerfile
@@ -169,9 +175,9 @@ jobs:
           IMAGE_ID=$(echo "${IMAGE_ID}" | tr '[A-Z]' '[a-z]')
 
           echo "IMAGE_ID=${IMAGE_ID}"
-          echo "VERSION=${PLANNED_VERSION}"
+          echo "VERSION=${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
           
-          docker push "${APP_NAME}:${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
+          docker push "${IMAGE_ID}:${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
 
   release:
     name: Release
