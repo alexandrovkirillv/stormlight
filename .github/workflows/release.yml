@@ -157,9 +157,11 @@ jobs:
         shell: bash
         run: >
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/${APP_NAME}
+          
           IMAGE_ID=$(echo "${IMAGE_ID}" | tr '[A-Z]' '[a-z]')
 
           echo "IMAGE_ID=${IMAGE_ID}"
+          
           echo "VERSION=${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
 
           docker build
@@ -197,6 +199,7 @@ jobs:
       TAG_EXISTS: ${{ needs.validate_new_version.outputs.tag_exists }}
       BRANCH_NAME: ${{ needs.validate_new_version.outputs.branch_name }}
       ARTIFACT_NAME: ${{ needs.build_and_test.outputs.filename }}
+      APP_NAME: "secretnet"
 
     if: >
       needs.validate_new_version.outputs.can_create == 'true' &&
@@ -296,9 +299,11 @@ jobs:
         shell: bash
         run: >
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/${APP_NAME}
+          
           IMAGE_ID=$(echo "${IMAGE_ID}" | tr '[A-Z]' '[a-z]')
 
           echo "IMAGE_ID=${IMAGE_ID}"
+          
           echo "VERSION=${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
 
           docker build
