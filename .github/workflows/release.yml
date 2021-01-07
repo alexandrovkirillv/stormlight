@@ -308,7 +308,7 @@ jobs:
 
           docker build
           --tag "${IMAGE_ID}:${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
-          --build-arg JAR_FILENAME="${{ steps.artifact_meta.outputs.full_path }}"
+          --build-arg JAR_FILENAME="${ARTIFACT_NAME}"
           --build-arg BUILD_VERSION="${PLANNED_VERSION}"
           --file docker/no_build/Dockerfile
           .
