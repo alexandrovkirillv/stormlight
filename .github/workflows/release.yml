@@ -82,6 +82,7 @@ jobs:
       CAN_CREATE_RELEASE: ${{ needs.validate_new_version.outputs.can_create }}
       TAG_EXISTS: ${{ needs.validate_new_version.outputs.tag_exists }}
       BRANCH_NAME: ${{ needs.validate_new_version.outputs.branch_name }}
+      APP_NAME: "secretnet"
 
     if: >
       github.event_name == 'push'
@@ -112,8 +113,8 @@ jobs:
         id: artifact_meta
         shell: bash
         run: |
-          echo "::set-output name=filename::secretnet-${PLANNED_VERSION}.jar"
-          echo "::set-output name=build_path::build/libs/secretnet-${PLANNED_VERSION}.jar"
+          echo "::set-output name=filename::${APP_NAME}-${PLANNED_VERSION}.jar"
+          echo "::set-output name=build_path::build/libs/${APP_NAME}-${PLANNED_VERSION}.jar"
 
       - name: Invoke Gradle build
         run: bash gradlew build -PbuildVersion="${PLANNED_VERSION}"
@@ -131,6 +132,52 @@ jobs:
           name: "${{ steps.artifact_meta.outputs.filename }}"
           path: "${{ steps.artifact_meta.outputs.build_path }}"
           retention-days: 30
+
+      - name: Login to Docker registry
+        id: docker_registry_login
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u "${{ github.actor }}" --password-stdin
+
+      - name: Define version suffix
+        id: version_suffix
+        run: |
+          if [[ "${BRANCH_NAME}" == "master" ]]; then
+            short_suffix=""
+            long_suffix=""
+          else
+            short_suffix="${BRANCH_NAME:0:1}"
+            long_suffix="${BRANCH_NAME}"
+          fi
+
+          echo "::set-output name=short::${short_suffix}"
+          echo "::set-output name=long::${long_suffix}"
+
+      - name: Build Docker image
+        id: build_docker_image
+        shell: bash
+        run: >
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/${APP_NAME}
+          IMAGE_ID=$(echo "${IMAGE_ID}" | tr '[A-Z]' '[a-z]')
+
+          echo "IMAGE_ID=${IMAGE_ID}"
+          echo "VERSION=${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
+
+          docker build
+          --tag "${IMAGE_ID}:${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
+          --build-arg JAR_FILENAME="${{ steps.artifact_meta.outputs.build_path }}"
+          --build-arg BUILD_VERSION="${PLANNED_VERSION}"
+          --file docker/no_build/Dockerfile
+          .
+
+      - name: Push Docker image to registry
+        run: |
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/${APP_NAME}
+          IMAGE_ID=$(echo "${IMAGE_ID}" | tr '[A-Z]' '[a-z]')
+
+          echo "IMAGE_ID=${IMAGE_ID}"
+          echo "VERSION=${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
+          
+          docker push "${IMAGE_ID}:${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
 
   release:
     name: Release
@@ -224,6 +271,53 @@ jobs:
 
       - name: Display changelog
         run: echo "${{ steps.generate_changelog.outputs.changelog }}"
+
+      - name: Login to Docker registry
+        id: docker_registry_login
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u "${{ github.actor }}" --password-stdin
+
+      - name: Define version suffix
+        id: version_suffix
+        run: |
+          if [[ "${BRANCH_NAME}" == "master" ]]; then
+            short_suffix=""
+            long_suffix=""
+          else
+            short_suffix="${BRANCH_NAME:0:1}"
+            long_suffix="${BRANCH_NAME}"
+          fi
+
+          echo "::set-output name=short::${short_suffix}"
+          echo "::set-output name=long::${long_suffix}"
+
+      - name: Build Docker image
+        id: build_docker_image
+        shell: bash
+        run: >
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/${APP_NAME}
+          IMAGE_ID=$(echo "${IMAGE_ID}" | tr '[A-Z]' '[a-z]')
+
+          echo "IMAGE_ID=${IMAGE_ID}"
+          echo "VERSION=${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
+
+          docker build
+          --tag "${IMAGE_ID}:${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
+          --build-arg JAR_FILENAME="${{ steps.download_artifact.outputs.download-path }}/${{ env.ARTIFACT_NAME }}"
+          --build-arg BUILD_VERSION="${PLANNED_VERSION}"
+          --file docker/no_build/Dockerfile
+          .
+
+      - name: Push Docker image to registry
+        run: |
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/${APP_NAME}
+          IMAGE_ID=$(echo "${IMAGE_ID}" | tr '[A-Z]' '[a-z]')
+
+          echo "IMAGE_ID=${IMAGE_ID}"
+          echo "VERSION=${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
+          
+          docker push "${IMAGE_ID}:${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
+
 
       - name: Create a new tag
         if: >
