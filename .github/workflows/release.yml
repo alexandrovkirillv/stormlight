@@ -338,16 +338,21 @@ jobs:
           PROD_SSH_HOSTNAME: ${{ secrets.PROD_SSH_HOSTNAME }}
           PROD_SSH_JUMP_USERNAME: ${{ secrets.PROD_SSH_JUMP_USERNAME }}
           PROD_SSH_JUMP_HOSTNAME: ${{ secrets.PROD_SSH_JUMP_HOSTNAME }}
+          PROD_SSH_HOST_KEYS: ${{ secrets.PROD_SSH_HOST_KEYS }}
           PROD_NEW_VERSION_FILENAME: ${{ secrets.PROD_NEW_VERSION_FILENAME }}
         run: |
           eval "$(ssh-agent -s)"
           ssh-add id_rsa
           ssh-add -l
 
+          echo "HOME=${HOME}"
+          echo "${PROD_SSH_HOST_KEYS}" >> ~/.ssh/known_hosts
+
           SSH_PROD="${PROD_SSH_USERNAME}"@"${PROD_SSH_HOSTNAME}"
           SSH_JUMP="${PROD_SSH_JUMP_USERNAME}"@"${PROD_SSH_JUMP_HOSTNAME}"
           SSH_CMD="echo \"${PLANNED_VERSION}\" >> \"${PROD_NEW_VERSION_FILENAME}\" "
-          ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
+
+          ssh -v -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
 
       - name: Create a new tag
         if: >
