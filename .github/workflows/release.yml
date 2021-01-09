@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  validate_new_version:
+  validate_ssh_connection:
     name: Validate ssh connection
     runs-on: ubuntu-latest
     steps:
