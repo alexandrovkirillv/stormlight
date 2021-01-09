@@ -340,10 +340,9 @@ jobs:
           PROD_SSH_JUMP_HOSTNAME: ${{ secrets.PROD_SSH_JUMP_HOSTNAME }}
           PROD_NEW_VERSION_FILENAME: ${{ secrets.PROD_NEW_VERSION_FILENAME }}
         run: |
-          ssh-add -l
-          
           eval "$(ssh-agent -s)"
           ssh-add id_rsa
+          ssh-add -l
 
           SSH_PROD="${PROD_SSH_USERNAME}"@"${PROD_SSH_HOSTNAME}"
           SSH_JUMP="${PROD_SSH_JUMP_USERNAME}"@"${PROD_SSH_JUMP_HOSTNAME}"
