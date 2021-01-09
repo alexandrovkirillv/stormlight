@@ -17,7 +17,7 @@ jobs:
         shell: bash
         env:
           PROD_SSH_PRIVATE_KEY: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
-          PROD_NEW_VERSION_FILENAME: ${{ secrets.PROD_NEW_VERSION_FILENAME }}
+          PROD_SSH_HOST_KEYS: ${{ secrets.PROD_SSH_HOST_KEYS }}
         run: |
           ssh-keygen -N "" -C github_auto -f ~/.ssh/id_rsa_auto -t rsa -b 2048
 
