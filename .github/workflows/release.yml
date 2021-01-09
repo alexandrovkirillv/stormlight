@@ -39,13 +39,15 @@ jobs:
           ssh-add -l
 
           echo "HOME=${HOME}"
-          echo "${PROD_SSH_HOST_KEYS}" >> known_hosts
+          echo "${PROD_SSH_HOST_KEYS}" >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+          ls -la ~/.ssh
 
           SSH_PROD="${PROD_SSH_USERNAME}"@"${PROD_SSH_HOSTNAME}"
           SSH_JUMP="${PROD_SSH_JUMP_USERNAME}"@"${PROD_SSH_JUMP_HOSTNAME}"
           SSH_CMD="echo \"${PLANNED_VERSION}\" >> \"${PROD_NEW_VERSION_FILENAME}\" "
 
-          ssh -v -T -i ~/.ssh/id_rsa -o "ForwardAgent=yes" -o "UserKnownHostsFile=known_hosts" -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
+          ssh -v -T -i ~/.ssh/id_rsa -o "ForwardAgent=yes" -o "UserKnownHostsFile=~/.ssh/known_hosts" -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
 
 
   validate_new_version:
