@@ -9,7 +9,7 @@ on:
 jobs:
 
   validate_new_version:
-    name: Validate new version
+    name: Validate ssh connection
     runs-on: ubuntu-latest
     steps:
 
