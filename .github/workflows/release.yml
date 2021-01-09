@@ -8,46 +8,47 @@ on:
 
 jobs:
 
-  # validate_ssh_connection:
-  #   name: Validate ssh connection
-  #   runs-on: ubuntu-latest
-  #   steps:
+  validate_ssh_connection:
+    name: Validate ssh connection
+    runs-on: ubuntu-latest
+    steps:
 
-  #     - name: Initialise RSA Private Key
-  #       shell: bash
-  #       run: |
-  #         ssh-keygen -N "" -C github_auto -f ~/.ssh/id_rsa_auto -t rsa -b 2048
+      - name: Initialise RSA Private Key
+        shell: bash
+        env:
+          PROD_SSH_PRIVATE_KEY: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+          PROD_NEW_VERSION_FILENAME: ${{ secrets.PROD_NEW_VERSION_FILENAME }}
+        run: |
+          ssh-keygen -N "" -C github_auto -f ~/.ssh/id_rsa_auto -t rsa -b 2048
 
-  #         touch ~/.ssh/id_rsa
-  #         chmod 600 ~/.ssh/id_rsa
-  #         echo "${{secrets.PROD_SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
-  #         eval "$(ssh-agent -s)"
-  #         ssh-add ~/.ssh/id_rsa
-  #         ls -la /dev/tty
+          touch ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "${PROD_SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
 
-  #     - name: Notify prod environment
-  #       env:
-  #         PROD_SSH_USERNAME: ${{ secrets.PROD_SSH_USERNAME }}
-  #         PROD_SSH_HOSTNAME: ${{ secrets.PROD_SSH_HOSTNAME }}
-  #         PROD_SSH_JUMP_USERNAME: ${{ secrets.PROD_SSH_JUMP_USERNAME }}
-  #         PROD_SSH_JUMP_HOSTNAME: ${{ secrets.PROD_SSH_JUMP_HOSTNAME }}
-  #         PROD_SSH_HOST_KEYS: ${{ secrets.PROD_SSH_HOST_KEYS }}
-  #         PROD_NEW_VERSION_FILENAME: ${{ secrets.PROD_NEW_VERSION_FILENAME }}
-  #       run: |
-  #         eval "$(ssh-agent -s)"
-  #         ssh-add ~/.ssh/id_rsa
-  #         ssh-add -l
+          echo "${PROD_SSH_HOST_KEYS}" >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
 
-  #         echo "HOME=${HOME}"
-  #         echo "${PROD_SSH_HOST_KEYS}" >> ~/.ssh/known_hosts
-  #         chmod 644 ~/.ssh/known_hosts
-  #         ls -la ~/.ssh
+      - name: Notify prod environment
+        env:
+          PROD_SSH_USERNAME: ${{ secrets.PROD_SSH_USERNAME }}
+          PROD_SSH_HOSTNAME: ${{ secrets.PROD_SSH_HOSTNAME }}
+          PROD_SSH_JUMP_USERNAME: ${{ secrets.PROD_SSH_JUMP_USERNAME }}
+          PROD_SSH_JUMP_HOSTNAME: ${{ secrets.PROD_SSH_JUMP_HOSTNAME }}
+          PROD_SSH_HOST_KEYS: ${{ secrets.PROD_SSH_HOST_KEYS }}
+          PROD_NEW_VERSION_FILENAME: ${{ secrets.PROD_NEW_VERSION_FILENAME }}
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
 
-  #         SSH_PROD="${PROD_SSH_USERNAME}"@"${PROD_SSH_HOSTNAME}"
-  #         SSH_JUMP="${PROD_SSH_JUMP_USERNAME}"@"${PROD_SSH_JUMP_HOSTNAME}"
-  #         SSH_CMD="echo \"${PLANNED_VERSION}\" >> \"${PROD_NEW_VERSION_FILENAME}\" "
+          echo "HOME=${HOME}"
 
-  #         ssh -v -T -i ~/.ssh/id_rsa -o "ForwardAgent=yes" -o "UserKnownHostsFile=~/.ssh/known_hosts" -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
+          SSH_PROD="${PROD_SSH_USERNAME}"@"${PROD_SSH_HOSTNAME}"
+          SSH_JUMP="${PROD_SSH_JUMP_USERNAME}"@"${PROD_SSH_JUMP_HOSTNAME}"
+          SSH_CMD="echo \"${PLANNED_VERSION}\" >> \"${PROD_NEW_VERSION_FILENAME}\" "
+
+          ssh -o "UserKnownHostsFile=~/.ssh/known_hosts" -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
 
 
   validate_new_version:
