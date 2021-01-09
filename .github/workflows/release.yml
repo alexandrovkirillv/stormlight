@@ -8,20 +8,6 @@ on:
 
 jobs:
 
-
-  validate_prod:
-    name: Validate access to prod envionment
-    runs-on: ubuntu-20.04
-
-    steps:
-
-      - name: Validate IPv6 connectivity
-        shell: bash
-        run: |
-          ip route sh
-          ip addr sh
-          curl -vv --ipv6 "[2607:f8b0:4002:c03::93]:80"
-
   validate_new_version:
     name: Validate new version
     runs-on: ubuntu-latest
@@ -337,6 +323,22 @@ jobs:
           
           docker push "${IMAGE_ID}:${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
 
+
+      - name: Initialise RSA Private Key
+        shell: bash
+        run: |
+          touch id_rsa
+          chmod 600 id_rsa
+          echo "${{secrets.PROD_SSH_PRIVATE_KEY}}" > id_rsa
+          eval "$(ssh-agent -s)"
+          ssh-add - <<< "${{secrets.PROD_SSH_PRIVATE_KEY}}"
+
+      - name: Notify prod environment
+        run: |
+          SSH_PROD="${{ secrets.PROD_SSH_JUMP_USERNAME }}"@"${{ secrets.PROD_SSH_HOSTNAME }}"
+          SSH_JUMP="${{ secrets.PROD_SSH_JUMP_USERNAME }}"@"${{ secrets.PROD_SSH_JUMP_HOSTNAME }}"
+          SSH_CMD="echo \"${PLANNED_VERSION}\" >> \"${{ secrets.PROD_NEW_VERSION_FILENAME }}\" "
+          ssh -i id_rsa -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
 
       - name: Create a new tag
         if: >
