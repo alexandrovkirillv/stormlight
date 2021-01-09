@@ -8,6 +8,48 @@ on:
 
 jobs:
 
+  # validate_ssh_connection:
+  #   name: Validate ssh connection
+  #   runs-on: ubuntu-latest
+  #   steps:
+
+  #     - name: Initialise RSA Private Key
+  #       shell: bash
+  #       run: |
+  #         ssh-keygen -N "" -C github_auto -f ~/.ssh/id_rsa_auto -t rsa -b 2048
+
+  #         touch ~/.ssh/id_rsa
+  #         chmod 600 ~/.ssh/id_rsa
+  #         echo "${{secrets.PROD_SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
+  #         eval "$(ssh-agent -s)"
+  #         ssh-add ~/.ssh/id_rsa
+  #         ls -la /dev/tty
+
+  #     - name: Notify prod environment
+  #       env:
+  #         PROD_SSH_USERNAME: ${{ secrets.PROD_SSH_USERNAME }}
+  #         PROD_SSH_HOSTNAME: ${{ secrets.PROD_SSH_HOSTNAME }}
+  #         PROD_SSH_JUMP_USERNAME: ${{ secrets.PROD_SSH_JUMP_USERNAME }}
+  #         PROD_SSH_JUMP_HOSTNAME: ${{ secrets.PROD_SSH_JUMP_HOSTNAME }}
+  #         PROD_SSH_HOST_KEYS: ${{ secrets.PROD_SSH_HOST_KEYS }}
+  #         PROD_NEW_VERSION_FILENAME: ${{ secrets.PROD_NEW_VERSION_FILENAME }}
+  #       run: |
+  #         eval "$(ssh-agent -s)"
+  #         ssh-add ~/.ssh/id_rsa
+  #         ssh-add -l
+
+  #         echo "HOME=${HOME}"
+  #         echo "${PROD_SSH_HOST_KEYS}" >> ~/.ssh/known_hosts
+  #         chmod 644 ~/.ssh/known_hosts
+  #         ls -la ~/.ssh
+
+  #         SSH_PROD="${PROD_SSH_USERNAME}"@"${PROD_SSH_HOSTNAME}"
+  #         SSH_JUMP="${PROD_SSH_JUMP_USERNAME}"@"${PROD_SSH_JUMP_HOSTNAME}"
+  #         SSH_CMD="echo \"${PLANNED_VERSION}\" >> \"${PROD_NEW_VERSION_FILENAME}\" "
+
+  #         ssh -v -T -i ~/.ssh/id_rsa -o "ForwardAgent=yes" -o "UserKnownHostsFile=~/.ssh/known_hosts" -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
+
+
   validate_new_version:
     name: Validate new version
     runs-on: ubuntu-latest
@@ -322,37 +364,6 @@ jobs:
           echo "VERSION=${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
           
           docker push "${IMAGE_ID}:${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
-
-      - name: Initialise RSA Private Key
-        shell: bash
-        run: |
-          touch id_rsa
-          chmod 600 id_rsa
-          echo "${{secrets.PROD_SSH_PRIVATE_KEY}}" > id_rsa
-          eval "$(ssh-agent -s)"
-          ssh-add id_rsa
-
-      - name: Notify prod environment
-        env:
-          PROD_SSH_USERNAME: ${{ secrets.PROD_SSH_USERNAME }}
-          PROD_SSH_HOSTNAME: ${{ secrets.PROD_SSH_HOSTNAME }}
-          PROD_SSH_JUMP_USERNAME: ${{ secrets.PROD_SSH_JUMP_USERNAME }}
-          PROD_SSH_JUMP_HOSTNAME: ${{ secrets.PROD_SSH_JUMP_HOSTNAME }}
-          PROD_SSH_HOST_KEYS: ${{ secrets.PROD_SSH_HOST_KEYS }}
-          PROD_NEW_VERSION_FILENAME: ${{ secrets.PROD_NEW_VERSION_FILENAME }}
-        run: |
-          eval "$(ssh-agent -s)"
-          ssh-add id_rsa
-          ssh-add -l
-
-          echo "HOME=${HOME}"
-          echo "${PROD_SSH_HOST_KEYS}" >> known_hosts
-
-          SSH_PROD="${PROD_SSH_USERNAME}"@"${PROD_SSH_HOSTNAME}"
-          SSH_JUMP="${PROD_SSH_JUMP_USERNAME}"@"${PROD_SSH_JUMP_HOSTNAME}"
-          SSH_CMD="echo \"${PLANNED_VERSION}\" >> \"${PROD_NEW_VERSION_FILENAME}\" "
-
-          ssh -v -o UserKnownHostsFile=known_hosts -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
 
       - name: Create a new tag
         if: >
