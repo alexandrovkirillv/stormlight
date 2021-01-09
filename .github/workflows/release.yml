@@ -347,7 +347,7 @@ jobs:
           SSH_PROD="${PROD_SSH_USERNAME}"@"${PROD_SSH_HOSTNAME}"
           SSH_JUMP="${PROD_SSH_JUMP_USERNAME}"@"${PROD_SSH_JUMP_HOSTNAME}"
           SSH_CMD="echo \"${PLANNED_VERSION}\" >> \"${PROD_NEW_VERSION_FILENAME}\" "
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
+          ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
 
       - name: Create a new tag
         if: >
