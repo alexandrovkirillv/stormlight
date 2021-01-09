@@ -323,7 +323,6 @@ jobs:
           
           docker push "${IMAGE_ID}:${PLANNED_VERSION}${{ steps.version_suffix.outputs.long }}"
 
-
       - name: Initialise RSA Private Key
         shell: bash
         run: |
@@ -331,14 +330,25 @@ jobs:
           chmod 600 id_rsa
           echo "${{secrets.PROD_SSH_PRIVATE_KEY}}" > id_rsa
           eval "$(ssh-agent -s)"
-          ssh-add - <<< "${{secrets.PROD_SSH_PRIVATE_KEY}}"
+          ssh-add id_rsa
 
       - name: Notify prod environment
+        env:
+          PROD_SSH_USERNAME: ${{ secrets.PROD_SSH_USERNAME }}
+          PROD_SSH_HOSTNAME: ${{ secrets.PROD_SSH_HOSTNAME }}
+          PROD_SSH_JUMP_USERNAME: ${{ secrets.PROD_SSH_JUMP_USERNAME }}
+          PROD_SSH_JUMP_HOSTNAME: ${{ secrets.PROD_SSH_JUMP_HOSTNAME }}
+          PROD_NEW_VERSION_FILENAME: ${{ secrets.PROD_NEW_VERSION_FILENAME }}
         run: |
-          SSH_PROD="${{ secrets.PROD_SSH_JUMP_USERNAME }}"@"${{ secrets.PROD_SSH_HOSTNAME }}"
-          SSH_JUMP="${{ secrets.PROD_SSH_JUMP_USERNAME }}"@"${{ secrets.PROD_SSH_JUMP_HOSTNAME }}"
-          SSH_CMD="echo \"${PLANNED_VERSION}\" >> \"${{ secrets.PROD_NEW_VERSION_FILENAME }}\" "
-          ssh -i id_rsa -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
+          ssh-add -l
+          
+          eval "$(ssh-agent -s)"
+          ssh-add id_rsa
+
+          SSH_PROD="${PROD_SSH_USERNAME}"@"${PROD_SSH_HOSTNAME}"
+          SSH_JUMP="${PROD_SSH_JUMP_USERNAME}"@"${PROD_SSH_JUMP_HOSTNAME}"
+          SSH_CMD="echo \"${PLANNED_VERSION}\" >> \"${PROD_NEW_VERSION_FILENAME}\" "
+          ssh -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
 
       - name: Create a new tag
         if: >
