@@ -8,6 +8,19 @@ on:
 
 jobs:
 
+
+  validate_prod:
+    name: Validate access to prod envionment
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Validate IPv6 connectivity
+        shell: bash
+        run: |
+          ping6 -c2 -v ipv6.google.com
+          exit 2
+
   validate_new_version:
     name: Validate new version
     runs-on: ubuntu-latest
