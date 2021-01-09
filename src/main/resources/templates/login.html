@@ -6,17 +6,25 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+
 <div class="container mt-5 mb-5">
+    <div class="form-control is-invalid" th:if="${param.error}">
+        Invalid username and password.
+    </div>
+    <div class="form-control is-invalid" th:if="${param.logout}">
+        You have been logged out.
+    </div>
     <h1>Please login</h1>
     <form th:action="@{/login}" method="post">
-            <div class="row">
-                <div class="col">
-                    <input type="text" id="login"  class="form-control"  name="username" placeholder="'princess' translation">
-                </div>
-                <div class="col">
-                    <input type="text" id="password"  class="form-control"  name="password" placeholder="last words in english"><br>
-                </div>
+        <div class="row">
+            <div class="col">
+                <input type="text" id="login" class="form-control" name="username" placeholder="'princess' translation">
             </div>
+            <div class="col">
+                <input type="text" id="password" class="form-control" name="password"
+                       placeholder="last words in english"><br>
+            </div>
+        </div>
         <button type="submit" class="btn btn-success">Sign In</button>
     </form>
 </div>
