@@ -43,7 +43,7 @@ jobs:
           SSH_JUMP="${PROD_SSH_JUMP_USERNAME}"@"${PROD_SSH_JUMP_HOSTNAME}"
           SSH_CMD="echo \"${PLANNED_VERSION}\" >> \"${PROD_NEW_VERSION_FILENAME}\" "
 
-          ssh -v -o UserKnownHostsFile=known_hosts -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
+          ssh -v -T -i id_rsa -o UserKnownHostsFile=known_hosts -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
 
 
   validate_new_version:
