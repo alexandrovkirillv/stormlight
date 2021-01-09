@@ -346,13 +346,13 @@ jobs:
           ssh-add -l
 
           echo "HOME=${HOME}"
-          echo "${PROD_SSH_HOST_KEYS}" >> ~/.ssh/known_hosts
+          echo "${PROD_SSH_HOST_KEYS}" >> known_hosts
 
           SSH_PROD="${PROD_SSH_USERNAME}"@"${PROD_SSH_HOSTNAME}"
           SSH_JUMP="${PROD_SSH_JUMP_USERNAME}"@"${PROD_SSH_JUMP_HOSTNAME}"
           SSH_CMD="echo \"${PLANNED_VERSION}\" >> \"${PROD_NEW_VERSION_FILENAME}\" "
 
-          ssh -v -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
+          ssh -v -o UserKnownHostsFile=known_hosts -J "${SSH_JUMP}" "${SSH_PROD}" "${SSH_CMD}"
 
       - name: Create a new tag
         if: >
