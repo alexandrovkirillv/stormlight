@@ -11,7 +11,7 @@ jobs:
 
   validate_prod:
     name: Validate access to prod envionment
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
 
