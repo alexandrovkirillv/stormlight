@@ -13,7 +13,10 @@
         <h3 th:text="${el.title}"></h3>
         <p th:text="${el.anons}"></p>
         <pre th:text="${el.full_text}"></pre>
-        <a th:href="'/blog/' + ${el.id}" class="btn btn-warning">Детальнее</a>
+        <form th:action="'/blog/' + ${el.id} + '/remove'" method="post">
+            <a th:href="'/blog/' + ${el.id} + '/edit'" class="btn btn-warning">Edit</a>
+            <button class="btn btn-warning" type="submit">Delete</button>
+        </form>
     </div>
 </div>
 <div th:insert="blocks/footer :: footer"></div>
