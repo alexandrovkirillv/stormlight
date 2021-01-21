@@ -33,7 +33,7 @@ public class UpdatePostTable {
                     "WHERE attrelid = 'post'::regclass " +
                     "AND attname = 'full_text'";
 
-            statement.execute(SQL);
+            statement.executeUpdate(SQL);
             statement.executeUpdate(SQL2);
 
             System.out.println("Table successfully created...");
