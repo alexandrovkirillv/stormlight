@@ -25,11 +25,17 @@ public class UpdatePostTable {
             System.out.println("Creating table in selected database...");
             statement = connection.createStatement();
 
-            String SQL = "UPDATE pg_attribute SET atttypmod = 20000+4 " +
+            String SQL = "SELECT atttypmod FROM pg_attribute " +
                     "WHERE attrelid = 'post'::regclass " +
                     "AND attname = 'full_text'";
 
-            statement.executeUpdate(SQL);
+            String SQL2 = "UPDATE pg_attribute SET atttypmod = 20000+4 " +
+                    "WHERE attrelid = 'post'::regclass " +
+                    "AND attname = 'full_text'";
+
+            statement.execute(SQL);
+            statement.executeUpdate(SQL2);
+
             System.out.println("Table successfully created...");
         } finally {
             if (statement != null) {
