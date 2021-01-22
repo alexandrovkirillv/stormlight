@@ -3,6 +3,7 @@ package com.secretNet.secNet.models;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 
@@ -75,5 +76,18 @@ public class Post {
 
     public void setViews(int views) {
         this.views = views;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Post post = (Post) o;
+        return time.equals(post.time);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(time);
     }
 }
