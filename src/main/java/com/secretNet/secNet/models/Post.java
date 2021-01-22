@@ -2,7 +2,7 @@ package com.secretNet.secNet.models;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
-import java.util.Date; 
+import java.util.Date;
 
 @Entity
 
@@ -14,6 +14,7 @@ public class Post {
     private String title;
     private String anons;
     private String full_text;
+    private String time;
     private int views;
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
 
@@ -24,10 +25,15 @@ public class Post {
         this.title = title;
         this.anons = anons;
         this.full_text = full_text;
+        this.time = DATE_FORMAT.format(new Date());
     }
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getTime() {
+        return time;
     }
 
     public Long getId() {
