@@ -1,6 +1,6 @@
 package com.secretNet.secNet.controllers;
 
-import com.secretNet.secNet.models.UpdatePostTable;
+import com.secretNet.secNet.models.UpdatePostColumn;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +21,9 @@ public class MainController {
         return "login";
     }
 
-    @GetMapping("/updatePost")
+    @GetMapping("/updatepost")
     public String updatePost(Model model) throws SQLException, ClassNotFoundException {
-        UpdatePostTable.updatePost();
+        UpdatePostColumn.updatePost();
         return "home";
     }
 

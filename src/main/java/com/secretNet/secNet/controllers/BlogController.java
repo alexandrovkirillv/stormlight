@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class BlogController {
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
 
     public static final String REDIRECT_BLOG = "redirect:/blog";
     @Autowired
@@ -74,6 +77,7 @@ public class BlogController {
         Post post = postRepository.findById(id).orElseThrow();
         post.setAnons(anons);
         post.setFull_text(full_text);
+        post.setTime(DATE_FORMAT.format(new Date()));
         post.setTitle(title);
         postRepository.save(post);
         return REDIRECT_BLOG;

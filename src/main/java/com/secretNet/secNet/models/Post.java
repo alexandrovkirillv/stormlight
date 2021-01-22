@@ -13,14 +13,19 @@ public class Post {
     private String anons;
     private String full_text;
     private int views;
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
 
     public Post() {
     }
 
-    public Post( String title, String anons, String full_text) {
+    public Post(String title, String anons, String full_text) {
         this.title = title;
         this.anons = anons;
         this.full_text = full_text;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public Long getId() {
