@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 
-public class Post {
+public class Post implements Comparable<Post> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,15 +79,7 @@ public class Post {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Post post = (Post) o;
-        return time.equals(post.time);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(time);
+    public int compareTo(Post o) {
+        return time.compareTo(o.getTime());
     }
 }

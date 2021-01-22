@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -27,10 +24,9 @@ public class BlogController {
 
     @GetMapping("/blog")
     public String blogMain(Model model) {
-        Iterable<Post> posts = postRepository
-                .findAll()
+        Iterable<Post> posts= postRepository.findAll()
                 .stream()
-                .sorted()
+                .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
         model.addAttribute("posts", posts);
         return "blog-main";
