@@ -14,6 +14,7 @@ public class Post {
     private String title;
     private String anons;
     private String full_text;
+    @Column(nullable=false)
     private String time;
     private int views;
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
