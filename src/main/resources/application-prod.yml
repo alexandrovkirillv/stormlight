@@ -7,12 +7,13 @@ server:
 #spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 
 # DataSource configuration
+
 spring: 
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
   datasource:
     initialization-mode: always
     driverClassName: org.postgresql.Driver
