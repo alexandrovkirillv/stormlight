@@ -10,13 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.secretNet.secNet.models.Post.ASIA_NOVOSIBIRSK;
+import static com.secretNet.secNet.models.Post.DATE_FORMAT;
+
+
 @Controller
 public class BlogController {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
 
     public static final String REDIRECT_BLOG = "redirect:/blog";
     @Autowired
@@ -78,6 +80,7 @@ public class BlogController {
         Post post = postRepository.findById(id).orElseThrow();
         post.setAnons(anons);
         post.setFull_text(full_text);
+        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(ASIA_NOVOSIBIRSK));
         post.setTime(DATE_FORMAT.format(new Date()));
         post.setTitle(title);
         postRepository.save(post);

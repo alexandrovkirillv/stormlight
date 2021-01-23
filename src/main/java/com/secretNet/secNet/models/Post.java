@@ -3,7 +3,7 @@ package com.secretNet.secNet.models;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
+import java.util.TimeZone;
 
 @Entity
 
@@ -15,10 +15,11 @@ public class Post implements Comparable<Post> {
     private String title;
     private String anons;
     private String full_text;
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String time;
     private int views;
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss 'Томск'");
+    public static final String ASIA_NOVOSIBIRSK = "Asia/Novosibirsk";
 
     public Post() {
     }
@@ -27,6 +28,7 @@ public class Post implements Comparable<Post> {
         this.title = title;
         this.anons = anons;
         this.full_text = full_text;
+        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(ASIA_NOVOSIBIRSK));
         this.time = DATE_FORMAT.format(new Date());
     }
 
