@@ -9,11 +9,10 @@
 <header th:insert="blocks/header :: header"></header>
 <div class="container mt-5 mb-5">
     <h1>Редактирование статьи</h1>
-
     <div th:each="el : ${post}">
-        <form method="post">
+        <form th:action="@{'/blog/' + ${el.id} + '/edit'}" method="post">
             <input type="text"  th:value="${el.title}" name="title" class="form-control"><br>
-            <textarea  name="full_text" class="form-control" th:text="${el.full_text}"/><br>
+            <textarea name="full_text" class="form-control" th:text="${el.full_text}"></textarea><br>
             <button type="submit" class="btn btn-success">Редактировать статью</button>
         </form>
     </div>

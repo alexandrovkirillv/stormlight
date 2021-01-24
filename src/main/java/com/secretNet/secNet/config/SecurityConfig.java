@@ -31,7 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/")
                 .and()
-                .csrf().disable() //todo firure out postmapping and csrf
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/");
     }
 
