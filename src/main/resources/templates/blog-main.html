@@ -14,7 +14,7 @@
         <p th:text="${el.time}"></p>
         <pre th:text="${el.full_text}"></pre>
         <div class="text-muted">
-            <p th:text="'by ' + ${el.userName}"></p>
+            <p th:if="${el.userName != null}" th:text="'by ' + ${el.userName}"></p>
         </div>
         <form th:action="'/blog/' + ${el.id} + '/remove'" method="post">
             <a th:href="'/blog/' + ${el.id} + '/edit'" class="btn btn-warning">Edit</a>
