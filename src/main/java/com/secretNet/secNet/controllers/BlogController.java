@@ -90,7 +90,7 @@ public class BlogController {
         DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(ASIA_NOVOSIBIRSK));
         post.setTime(DATE_FORMAT.format(new Date()));
         post.setTitle(title);
-//        post.setUserName(user.getUsername());
+        post.setUserName(user.getUsername());
         postRepository.save(post);
         return REDIRECT_BLOG;
     }
