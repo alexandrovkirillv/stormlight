@@ -22,7 +22,7 @@ public class Post implements Comparable<Post> {
     @Column(nullable = false)
     private String time;
     private int views;
-    @Column(nullable = false)
+    @Column(name = "user_name")
     private String userName;
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss 'Томск'");
     public static final String ASIA_NOVOSIBIRSK = "Asia/Novosibirsk";
