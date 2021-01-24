@@ -28,7 +28,7 @@ public class BlogController {
 
     @GetMapping("/blog")
     public String blogMain(@AuthenticationPrincipal User user, Model model) {
-        Iterable<Post> posts= postRepository.findAll()
+        Iterable<Post> posts = postRepository.findAll()
                 .stream()
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
@@ -45,8 +45,9 @@ public class BlogController {
     }
 
     @PostMapping("/blog/add")
-    public String blogPostAdd(@RequestParam String title, String anons, String full_text, Model model) {
-        Post post = new Post(title, anons, full_text);
+    public String blogPostAdd(@RequestParam String title, String anons, String full_text, Model model,
+                              @AuthenticationPrincipal User user) {
+        Post post = new Post(title, anons, full_text, user.getUsername());
         postRepository.save(post);
         return REDIRECT_BLOG;
     }
@@ -80,7 +81,8 @@ public class BlogController {
 
     @PostMapping("/blog/{id}/edit")
     public String blogUpdate(@PathVariable(value = "id") long id, @RequestParam String title,
-                             String anons, String full_text, Model model) {
+                             String anons, String full_text, Model model,
+                             @AuthenticationPrincipal User user) {
 
         Post post = postRepository.findById(id).orElseThrow();
         post.setAnons(anons);
@@ -88,6 +90,7 @@ public class BlogController {
         DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(ASIA_NOVOSIBIRSK));
         post.setTime(DATE_FORMAT.format(new Date()));
         post.setTitle(title);
+        post.setUserName(user.getUsername());
         postRepository.save(post);
         return REDIRECT_BLOG;
     }
