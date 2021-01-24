@@ -1,8 +1,10 @@
 package com.secretNet.secNet.controllers;
 
 import com.secretNet.secNet.models.Post;
+import com.secretNet.secNet.models.User;
 import com.secretNet.secNet.repo.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,11 +27,14 @@ public class BlogController {
     private PostRepository postRepository;
 
     @GetMapping("/blog")
-    public String blogMain(Model model) {
+    public String blogMain(@AuthenticationPrincipal User user, Model model) {
         Iterable<Post> posts= postRepository.findAll()
                 .stream()
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
+        if (user != null) {
+            model.addAttribute("user", "Приветствую, " + user.getUsername());
+        }
         model.addAttribute("posts", posts);
         return "blog-main";
     }
