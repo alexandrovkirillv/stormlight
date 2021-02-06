@@ -1,4 +1,4 @@
-package com.secretNet.secNet;
+package com.secretNet.soulmate;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

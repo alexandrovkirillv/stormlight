@@ -1,4 +1,4 @@
-package com.secretNet.secNet.models;
+package com.secretNet.soulmate.models;
 
 import lombok.Data;
 import org.springframework.boot.autoconfigure.domain.EntityScan;

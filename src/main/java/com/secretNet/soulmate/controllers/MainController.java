@@ -1,4 +1,4 @@
-package com.secretNet.secNet.controllers;
+package com.secretNet.soulmate.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

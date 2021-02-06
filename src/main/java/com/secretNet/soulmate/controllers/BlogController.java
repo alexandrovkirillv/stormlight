@@ -1,8 +1,8 @@
-package com.secretNet.secNet.controllers;
+package com.secretNet.soulmate.controllers;
 
-import com.secretNet.secNet.models.Post;
-import com.secretNet.secNet.models.User;
-import com.secretNet.secNet.repo.PostRepository;
+import com.secretNet.soulmate.models.Post;
+import com.secretNet.soulmate.models.User;
+import com.secretNet.soulmate.repo.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.secretNet.secNet.models.Post.ASIA_NOVOSIBIRSK;
-import static com.secretNet.secNet.models.Post.DATE_FORMAT;
+import static com.secretNet.soulmate.models.Post.ASIA_NOVOSIBIRSK;
+import static com.secretNet.soulmate.models.Post.DATE_FORMAT;
 
 
 @Controller
