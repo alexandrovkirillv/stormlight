@@ -13,8 +13,8 @@ public class MainController {
         return "home";
     }
 
-//    @GetMapping("/login")
-//    public String login(Model model) {
-//        return "login";
-//    }
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "login";
+    }
 }
