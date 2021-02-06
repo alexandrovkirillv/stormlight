@@ -1,6 +1,6 @@
-package com.secretNet.soulmate.service;
+package com.secretNet.secNet.service;
 
-import com.secretNet.soulmate.repo.UserRepo;
+import com.secretNet.secNet.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,4 +1,4 @@
-package com.secretNet.soulmate.models;
+package com.secretNet.secNet.models;
 
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,4 +1,4 @@
-package com.secretNet.soulmate.models;
+package com.secretNet.secNet.models;
 
 import org.springframework.security.core.GrantedAuthority;
 
