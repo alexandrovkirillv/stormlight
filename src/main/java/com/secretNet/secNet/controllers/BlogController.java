@@ -33,7 +33,7 @@ public class BlogController {
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
         if (user != null) {
-            model.addAttribute("user", "Приветствую, " + user.getUsername());
+            model.addAttribute("user", "Bonjour, " + user.getUsername());
         }
         model.addAttribute("posts", posts);
         return "blog-main";
