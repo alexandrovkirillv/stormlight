@@ -11,7 +11,7 @@
     <h1>Contact form</h1>
     <form th:action="@{/blog/add}" method="post">
         <input type="text" name="title" placeholder="введите название статьи" class="form-control"><br>
-        <textarea name="full_text" placeholder="введите полный текст статьи" class="form-control"></textarea><br>
+        <textarea name="full_text" rows="4" cols="40" placeholder="введите полный текст статьи" class="form-control"></textarea><br>
         <button type="submit" class="btn btn-success">Добавить статью</button>
     </form>
 </div>

@@ -9,6 +9,10 @@
 <header th:insert="blocks/header :: header"></header>
 <div class="container mt-5">
     <h3 th:text="${user}"></h3>
+
+    <form th:action="'/blog/add'" method="get">
+        <a th:href="'/blog/add'" class="btn btn-success">Add post</a>
+    </form>
     <div th:each="el : ${posts}" class="alert alert-info mt-2">
         <h3 th:text="${el.title}"></h3>
         <p th:text="${el.time}"></p>

@@ -12,7 +12,7 @@
     <div th:each="el : ${post}">
         <form th:action="@{'/blog/' + ${el.id} + '/edit'}" method="post">
             <input type="text"  th:value="${el.title}" name="title" class="form-control"><br>
-            <textarea name="full_text" class="form-control" th:text="${el.full_text}"></textarea><br>
+            <textarea name="full_text"  rows="6" cols="40" class="form-control" th:text="${el.full_text}"></textarea><br>
             <button type="submit" class="btn btn-success">Редактировать статью</button>
         </form>
     </div>
