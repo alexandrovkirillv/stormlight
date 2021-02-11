@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Info</title>
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<main role="main" class="inner cover">
+    <div class="card" style="width: 1000px;">
+        <div class="card-body">
+            <h5 class="card-title">Важно помнить</h5>
+            <p class="card-text">Здесь будет собираться инфа, которую важно помнить.</p>
+        </div>
+        <ul class="list-group list-group-flush" style="font-weight: bold">
+            <li class="list-group-item">1. Удобная обувь</li>
+            <li class="list-group-item">2. Внутреннее состояние(нужно быть бодричком, не насилуй себя)</li>
+            <li class="list-group-item">3. Пульсовые зоны, мы начинаем с основ, поэтому первый месяц в синей зоне
+                60-70% от максимального пульса, самый простой тест 220 - возраст, если не знаешь
+            </li>
+            <li class="list-group-item">4. Береги сердце!</li>
+            <li class="list-group-item">5. Что почитать: Джек Дэниэлс(дада не шутка) от 800м до марафона</li>
+            <li class="list-group-item">6. Не забывай пить воду</li>
+            <li class="list-group-item">7. Нужна стабильность в тренировках, нельзя пропускать. Марафон сам себя не
+                пробежит
+            </li>
+            <li class="list-group-item">8. Я распишу программу во вкладке running</li>
+            <li class="list-group-item">9. Обязательно делай ОФП</li>
+            <li class="list-group-item">10. Не забывай про растяжку после тренировки.</li>
+            <li class="list-group-item">11. Помни марафон это серьезно, нужно подойти ответственно к нему.</li>
+            <li class="list-group-item">12. Техика бега. Как и в любом спорте важно бегать правильно, если научишься
+            нагрузка на колени сократиться в двое. Но на видео они быстро бегут, не торопись, побегай босиком, соблюдай
+            каденс(180 шагов в минуту). Сними видео. Не начинай шаг с пятки, стопа под центр тяжести.</li>
+            <li class="list-group-item">13. СБУ важно делать .</li>
+            <li class="list-group-item">14. Вообще если получится - найди себе тренера, нужно все-равно смотреть со стороны</li>
+        </ul>
+        <div class="card-body">
+            <a href="https://yadi.sk/i/vsxiDPdED5ry9A" class="card-link">ОФП</a>
+            <a href="https://youtu.be/HsSs8k371v0" class="card-link">Техника1</a>
+            <a href="https://youtu.be/qRkk7Sgm2hg" class="card-link">Техинка2</a>
+            <a href="https://youtu.be/e2xlToKoZ7c" class="card-link">Техинка3</a>
+            <a href="https://youtu.be/6ODfzVDPz5Q" class="card-link">СБУ</a>
+        </div>
+        <img class="card-img-top" th:src="@{zonez.jpg}" alt="Card image cap">
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Блог сайта</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div class="container mt-5 mb-5">
+    <h1>Contact form</h1>
+    <form th:action="@{/running/add}" method="post">
+        <input type="text" name="trainNumber" placeholder="Номер тренировки" class="form-control"><br>
+        <input type="text" name="runTime" placeholder="Время тренировки" class="form-control"><br>
+        <input type="text" name="ofpTime" placeholder="Время офп" class="form-control"><br>
+        <input type="text" name="pulse" placeholder="Средний пульс" class="form-control"><br>
+        <textarea name="comment" rows="4" cols="40" placeholder="коммент" class="form-control"></textarea>
+        <button type="submit" class="btn btn-success">Добавить статью</button>
+    </form>
+</div>
+<div th:insert="blocks/footer :: footer"></div>
+</body>
+</html>

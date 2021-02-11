@@ -17,4 +17,9 @@ public class MainController {
     public String login(Model model) {
         return "login";
     }
+
+    @GetMapping("/info")
+    public String info(Model model) {
+        return "main-info";
+    }
 }

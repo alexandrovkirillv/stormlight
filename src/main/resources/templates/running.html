@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Running</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div class="container mt-5">
+    <form th:action="'/running/add'" method="get">
+        <a th:href="'/running/add'" class="btn btn-success">Add post</a>
+    </form>
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">Бег</th>
+            <th scope="col">ОФП</th>
+            <th scope="col">Пульс</th>
+            <th scope="col">Комментарий</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Пользователь</th>
+            <th scope="col">Редактирование</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="el : ${posts}" class="thead-light">
+            <th scope="row" th:text="${el.trainNumber}"></th>
+            <td><p th:text="${el.runTime}"></p></td>
+            <td><p th:text="${el.ofpTime}"></p></td>
+            <td><p th:text="${el.pulse}"></p></td>
+            <td><p th:text="${el.comment}"></p></td>
+            <td><p th:text="${el.time}"></p></td>
+            <td><p th:text="${el.userName}"></p></td>
+            <td>
+                <form th:action="'/running/' + ${el.id} + '/remove'" method="post">
+                    <a th:href="'/running/' + ${el.id} + '/edit'" class="btn btn-warning">Edit</a>
+                    <button class="btn btn-warning" type="submit" onclick="return confirm('Are you sure?')">Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:insert="blocks/footer :: footer"></div>
+</body>
+</html>
