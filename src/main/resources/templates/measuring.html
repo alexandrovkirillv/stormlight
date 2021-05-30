@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Measuring</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div class="container mt-5">
+    <form th:action="'/measuring/add'" method="get">
+        <a th:href="'/measuring/add'" class="btn btn-success">Add measure</a>
+    </form>
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Пульс в покое</th>
+            <th scope="col">Пульс стоя</th>
+            <th scope="col">Разница</th>
+            <th scope="col">Пульс на 1 минуте</th>
+            <th scope="col">На 2 минуте</th>
+            <th scope="col">На 3ей минуте</th>
+            <th scope="col">Результат</th>
+            <th scope="col">Комментарий</th>
+            <th scope="col">Пользователь</th>
+            <th scope="col">Время</th>
+            <th scope="col">Редактирование</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="el : ${posts}" class="thead-light">
+            <th scope="row" th:text="${el.restPulse}"></th>
+            <td><p th:text="${el.wakeUpPulse}"></p></td>
+            <td><p th:text="${el.diffPulse}"></p></td>
+            <td><p th:text="${el.firstMinutePulse}"></p></td>
+            <td><p th:text="${el.secondMinutePulse}"></p></td>
+            <td><p th:text="${el.thirdMinutePulse}"></p></td>
+            <td><p th:text="${el.result}"></p></td>
+            <td><p th:text="${el.comment}"></p></td>
+            <td><p th:text="${el.userName}"></p></td>
+            <td><p th:text="${el.time}"></p></td>
+            <td>
+                <form th:action="'/measuring/' + ${el.id} + '/remove'" method="post">
+                    <a th:href="'/measuring/' + ${el.id} + '/edit'" class="btn btn-warning">Edit</a>
+                    <button class="btn btn-warning" type="submit" onclick="return confirm('Are you sure?')">Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:insert="blocks/footer :: footer"></div>
+</body>
+</html>

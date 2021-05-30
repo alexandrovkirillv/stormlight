@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактирование статьи</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div class="container mt-5 mb-5">
+    <h1>Редактирование измерения</h1>
+    <div th:each="el : ${post}">
+        <form th:action="@{'/measuring/' + ${el.id} + '/edit'}" method="post">
+            <input type="text"  th:value="${el.restPulse}" name="restPulse" class="form-control"><br>
+            <input type="text"  th:value="${el.wakeUpPulse}" name="wakeUpPulse" class="form-control"><br>
+            <input type="text"  th:value="${el.firstMinutePulse}" name="firstMinutePulse" class="form-control"><br>
+            <input type="text"  th:value="${el.secondMinutePulse}" name="secondMinutePulse" class="form-control"><br>
+            <input type="text"  th:value="${el.thirdMinutePulse}" name="thirdMinutePulse" class="form-control"><br>
+            <textarea name="comment"  rows="3" cols="40" class="form-control" placeholder="коммент" th:text="${el.comment}"></textarea>
+            <button type="submit" class="btn btn-success">Редактировать измерения</button>
+        </form>
+    </div>
+</div>
+<div th:insert="blocks/footer :: footer"></div>
+</body>
+</html>

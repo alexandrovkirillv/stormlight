@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Введите данные</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div class="container mt-5 mb-5">
+    <h1>Введите данные</h1>
+    <form th:action="@{/measuring/add}" method="post">
+        <input type="text" name="restPulse" placeholder="Пульс в покое" class="form-control"><br>
+        <input type="text" name="wakeUpPulse" placeholder="Пульс стоя" class="form-control"><br>
+        <input type="text" name="firstMinutePulse" placeholder="Сделайте 20 приседаний и замерьте пульс на 1ой минуте" class="form-control"><br>
+        <input type="text" name="secondMinutePulse" placeholder="На 2ой минуте" class="form-control"><br>
+        <input type="text" name="thirdMinutePulse" placeholder="На 3ей минуте" class="form-control"><br>
+        <textarea name="comment" rows="4" cols="40" placeholder="Оставьте комментарий" class="form-control"></textarea>
+        <button type="submit" class="btn btn-success">Добавить измерение</button>
+    </form>
+</div>
+<div th:insert="blocks/footer :: footer"></div>
+</body>
+</html>
