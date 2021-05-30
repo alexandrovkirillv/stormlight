@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Регистрация</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div class="container mt-5 mb-5">
+    <h1>Registration page</h1>
+    <div class="form-control is-invalid" th:if="${user != null}" ер th:text="${user}">
+    </div>
+    <form th:action="@{/registration}" autocomplete="off" method="post">
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" name="username">
+            </div>
+            <div class="col">
+                <input type="password" class="form-control" name="password"> <br>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success" value="registration">Registration</button>
+    </form>
+</div>
+</body>
+</html>

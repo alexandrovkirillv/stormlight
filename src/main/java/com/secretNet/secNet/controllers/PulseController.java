@@ -96,5 +96,4 @@ public class PulseController {
         pulseRepo.delete(post);
         return REDIRECT_MEASURING;
     }
-
 }
