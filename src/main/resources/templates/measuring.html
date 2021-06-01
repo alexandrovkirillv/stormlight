@@ -8,6 +8,15 @@
 <body>
 <header th:insert="blocks/header :: header"></header>
 <div class="container mt-5">
+    <div  class="alert alert-info mt-2">
+        <p class="card-text">
+            Результат: <br>
+            300-350 – уровень профессионального спортсмена,<br>
+            350-400 – уровень хорошо подготовленного спортсмера,<br>
+            400-450 – удовлетворительный уровень физической формы<br>
+            450 – низкий уровень физической формы. </p>
+    </div>
+
     <form th:action="'/measuring/add'" method="get">
         <a th:href="'/measuring/add'" class="btn btn-success">Add measure</a>
     </form>
