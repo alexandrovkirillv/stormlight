@@ -52,14 +52,6 @@ public class BlogController {
         return REDIRECT_BLOG;
     }
 
-    @GetMapping("/blog/{id}")
-    public String blogDetails(@PathVariable(value = "id") long id, Model model) {
-        if (getPost(id, model)) {
-            return REDIRECT_BLOG;
-        }
-        return "blog-details";
-    }
-
     private boolean getPost(@PathVariable("id") long id, Model model) {
         if (!postRepository.existsById(id)) {
             return true;
