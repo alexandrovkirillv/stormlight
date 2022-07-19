@@ -12,7 +12,6 @@ import java.util.TimeZone;
 @Data
 @EntityScan
 public class Post implements Comparable<Post> {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
