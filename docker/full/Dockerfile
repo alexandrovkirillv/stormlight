@@ -1,4 +1,4 @@
-FROM gradle:6.7.0-jdk15 as builder
+FROM gradle:6.9.1-jdk15 as builder
 
 ARG BUILD_VERSION=0.0.0
 

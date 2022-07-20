@@ -1,6 +1,8 @@
 package com.secretNet.secNet.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
@@ -11,6 +13,7 @@ import java.util.TimeZone;
 @Entity
 @Data
 @EntityScan
+@NoArgsConstructor
 public class Post implements Comparable<Post> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,17 +26,15 @@ public class Post implements Comparable<Post> {
     private int views;
     @Column(name = "user_name")
     private String userName;
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss 'Томск'");
-    public static final String ASIA_NOVOSIBIRSK = "Asia/Novosibirsk";
-
-    public Post() {
-    }
+    @Value("${date-format}")
+    public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss 'GMT'");
+    public static String timeZone = "GMT";
 
     public Post(String title, String anons, String full_text, String userName) {
         this.title = title;
         this.anons = anons;
         this.full_text = full_text;
-        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(ASIA_NOVOSIBIRSK));
+        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(timeZone));
         this.time = DATE_FORMAT.format(new Date());
         this.userName = userName;
     }

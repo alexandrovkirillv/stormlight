@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.TimeZone;
 
-import static com.secretNet.secNet.models.Post.ASIA_NOVOSIBIRSK;
 import static com.secretNet.secNet.models.Post.DATE_FORMAT;
 
 
@@ -16,10 +14,6 @@ import static com.secretNet.secNet.models.Post.DATE_FORMAT;
 @Table(name = "pulse")
 @EntityScan
 public class Pulse implements Comparable<Pulse> {
-
-    static {
-        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(ASIA_NOVOSIBIRSK));
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

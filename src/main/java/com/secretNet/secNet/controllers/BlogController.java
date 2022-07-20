@@ -3,7 +3,10 @@ package com.secretNet.secNet.controllers;
 import com.secretNet.secNet.models.Post;
 import com.secretNet.secNet.models.User;
 import com.secretNet.secNet.repo.PostRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.secretNet.secNet.models.Post.ASIA_NOVOSIBIRSK;
+import static com.secretNet.secNet.models.Post.timeZone;
 import static com.secretNet.secNet.models.Post.DATE_FORMAT;
 
 
 @Controller
 public class BlogController {
 
+    public static final Logger LOG = LoggerFactory.getLogger(BlogController.class);
     public static final String REDIRECT_BLOG = "redirect:/blog";
     @Autowired
     private PostRepository postRepository;
@@ -79,7 +83,7 @@ public class BlogController {
         Post post = postRepository.findById(id).orElseThrow();
         post.setAnons(anons);
         post.setFull_text(full_text);
-        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(ASIA_NOVOSIBIRSK));
+        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(timeZone));
         post.setTime(DATE_FORMAT.format(new Date()));
         post.setTitle(title);
         post.setUserName(user.getUsername());
